@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC');
+@import url('../node_modules/dragula/dist/dragula.min.css');
+@import 'dragula.min.scss';
+@import '../node_modules/font-awesome/scss/font-awesome.scss';
+@import url('../node_modules/dragula/dist/dragula.min.css');
+@fa-font-path: "../fonts";
+
+
+.windowbox {vertical-align: top}
+
+.container,.newwindow {border: 1px solid #cdcdcd; box-shadow: 2px 2px #555; border-radius: 5px; margin: 2%; width: 45%; display: inline-block; vertical-align:top; min-height: 50px;}
+
+.newwindow {background-color: #0033a0; font-weight: bold; font-family: 'Amatic SC'; font-size: 120px; color: white; width: initial; line-height: 0.5;}
+
+.tab {border: 1px solid grey; max-width: 100px; display: inline-block; margin: 1em; box-shadow: 2px 2px #999; }
+
+.tab.searched h2 {font-size: 8pt; word-wrap: break-word;}
+.tab h2 {font-size: 5pt; word-wrap: break-word;}
+
+
+.tab {opacity: 0.3; width: 70%; height: 70%} /* not searched */
+.searched {opacity: 1; width: 100%; height: 100%;}
+
+.focused {border: 5px solid #dbf0f3; box-shadow: 2px 2px #799}
+.header {background-color: black; color: white; height: 30px; position: fixed; width: 100%; vertical-align: middle; padding: 10px; font-family: 'Amatic SC',cursive;}
+.header .brand {font-size: 28px; font-weight: bold;  text-shadow: 5px 5px #555;}
+.header .lefty {position: absolute; left: 40px; top: 5px; }
+.header .search {position: absolute; right: 40px; top: 10px}
+.header .info {font-style: italic;  color: #dfdfdf; margin-left: 2em;}
+.header .info strong {font-weight: bold; color: #dbf0f3; font-size: 110%;}
+.windows {margin-top: 30px;}
+.titlebar {height: 20px; width: 100px; border-bottom: 1px solid #575757;}
+button.close {color: red; border: none; background-color: white;}
+button.open {background-color: white; border: none; text-align: center;}
+.right {text-align: right; float:right; display: inline-block;}
+.history > h2 {color: #dfdfdf; font-family: 'Amatic SC'; margin-left: 40px;}
+.history {
+    border: 1px solid #333; box-shadow: 2px 2px #555; border-radius: 5px; margin: 2%; width: 90%; vertical-align: top;
+    background-color: #aaa;
+}
+.history .tab {background-color: white;}

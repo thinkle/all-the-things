@@ -1,0 +1,18 @@
+{
+  "appName": {
+    "message": "All the Things",
+    "description": "The name of the application"
+  },
+  "appShortName": {
+    "message": "All_the_Things",
+    "description": "The short_name (maximum of 12 characters recommended) is a short version of the app's name."
+  },
+  "appDescription": {
+    "message": "A new-tab replacement that helps you manage tabs in all your windows.",
+    "description": "The description of the application"
+  },
+  "browserActionTitle": {
+    "message": "vue chrome extension example",
+    "description": "The title of the browser action button"
+  }
+}
