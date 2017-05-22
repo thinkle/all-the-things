@@ -27,9 +27,10 @@
 	<button class="newwindow" v-on:click="newWindow">+</button>
     </div>
     <div class="history" v-if="historyResults.length>0"> <!--   v-dragula="historyResults" bag="my-bag"> -->
-    <h2></i>Ghosts of Tabs Past...<i style="font-size:100%" class="fa fa-snapchat-ghost" aria-hidden="true"></i>
-<i  style="font-size:80%" class="fa fa-snapchat-ghost" aria-hidden="true"></i>
-<i  style="font-size:40%" class="fa fa-snapchat-ghost" aria-hidden="true"></i><i  style="font-size:20%" class="fa fa-snapchat-ghost" aria-hidden="true"></i>
+    <h2></i>Ghosts of Tabs Past...
+<i  style="font-size:32px" class="fa fa-snapchat-ghost" aria-hidden="true"></i>
+<i  style="font-size:16px" class="fa fa-snapchat-ghost" aria-hidden="true"></i>
+<i  style="font-size:8px" class="fa fa-snapchat-ghost" aria-hidden="true"></i>
 </h2>
       <div class="historyResult searched tab" v-for="result in historyResults" v-if="result.title">
 	  <div class="titlebar">
