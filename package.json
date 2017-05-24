@@ -52,6 +52,7 @@
     "require-dir": "0.x.x",
     "vinyl-named": "1.x.x",
     "vue": "^2.2.1",
+    "vue-dragula": "*",
     "vue-loader": "^11.1.4",
     "vue-template-compiler": "^2.2.1",
     "vueify-insert-css": "^1.0.0",
