@@ -1,7 +1,7 @@
 {
   "name": "vue-chrome-extension-example",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "chrome extesion with vue",
   "scripts": {
     "start": "npm run dev:chrome",
@@ -30,6 +30,7 @@
     "del": "2.x.x",
     "eslint": "3.x.x",
     "eslint-loader": "1.x.x",
+    "fontawesome":"*",
     "gulp": "3.x.x",
     "gulp-bump": "2.x.x",
     "gulp-cache": "0.x.x",
