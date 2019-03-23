@@ -1,11 +1,7 @@
 import Vue from 'vue';
 import Newtab from '../component/newtab.vue';
-
 import VueDragula from 'vue-dragula';
 Vue.use(VueDragula);
-
-
-console.log('Loaded script');
 
 function backendDo (msg, callback) {
     chrome.runtime.sendMessage(msg,
@@ -40,3 +36,4 @@ var vm = new Vue({
 function getVM () {
     return vm
 }
+window.getVM = getVM;
