@@ -48,7 +48,9 @@ gulp.task('scripts', (cb) => {
       },
       resolve: {
         alias: {
-          'vue$': 'vue/dist/vue.esm.js' // 'vue/dist/vue.common.js' for webpack 1
+            //'vue$': 'vue/dist/vue.esm.js' // 'vue/dist/vue.common.js' for webpack 1
+            // Tried changing below - 3/22 - problem with gulp export default $Vue3 error
+            'vue$': 'vue/dist/vue.common.js'// for webpack 1 
         }
       },
       eslint: {
