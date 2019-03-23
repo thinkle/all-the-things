@@ -1,49 +1,110 @@
 <template>
-  <div class="windowbox">
-    <div class="header">
-      <span class="lefty">
-	<strong class="brand">All the Things</strong>  
-	<span class="info">You have <strong>{{tabCount}}</strong> tabs open in  <strong>{{windowCount}}</strong> windows</span>
-      </span>
-      <span class="search">Search: <input v-model="search"></input></span></div>
+  <div class="main">
+    <div class="backgroundwrap"></div>
+  <div class="container-fluid">
+    <div class="row d-flex header">
+      <div class="col col-6">
+	<strong class="brand">All the Things</strong>
+      </div>
+      <div class="col info col-3">
+        <strong class="tabcount">{{tabCount}}</strong> tabs in
+          <strong class="windowcount">{{windowCount}}</strong>
+          {{windowCount==1&&'window'||'windows'}}
+      </div>
+      <div class="col search col-3">
+        Search: <input v-model="search"></input>
+      </div>
+    </div>
     <br>
-    <div class="windows">
-      <div v-bind:class="{container:true, window:true, focused:window.focused}" v-for="window in windows" :key="window.id" :id="window.id" bag="my-bag" v-dragula="window">
-	<div
-	  v-bind:class="{tab:true,focused:tab.active,searched:!search || tab.title.toLowerCase().indexOf(search.toLowerCase())>-1}" 
+    <div class="row debug">
+      SELECTED: <div v-for="tab in checkedTabs">
+        {{tab}}
+      </div>
+    </div>
+    <div class="windows row">
+      <div v-bind:class="{
+                         column:true, 
+                         'col-xl-4':true,
+                         'col-lg-6':true, 
+                         'col-md-6':true, 
+                         'col-sm-12':true, 
+                         'p-3':true,
+                         }" v-for="window in windows" :key="window.id" :id="window.id" >
+        <div :class="{
+                     border:true,
+                     rounded:true,
+                     focusedWindow:window.focused,
+                     regularWindow:!window.focused,
+                     'border-warning':window.focused,
+                     'p-2':true}"
+             bag="my-bag" v-dragula="window" :id="window.id"
+             >
+          <!--<div class="row">
+            WINDOW HEADER
+            <span class="align-self-right">Close</span>
+          </div>-->
+	  <div
+	  v-bind:class="{
+                        'd-inline-block':true,
+                        'align-top':true,
+                        column:true,
+                        'p-2':true,
+                        'col-xl-4':true,
+                        'col-lg-4':true,
+                        'col-md-6':true,
+                        'col-sm-6':true,
+                        }"
 	  :key=tab.id
 	  :id=tab.id
 	  bag="my-bag"
 	  v-on:dblclick="focusTab(window,tab)"
 	  v-for="tab in window.tabs"
-	  >
-	  <div class="titlebar">
-	    <button class="close" v-on:click="closeTab(window,tab)"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
-            <span class="right"><button class="open" v-on:click="focusTab(window,tab)"><i class="fa fa-external-link"></i></button></span>
+	    >
+            <Tab :tab="tab"
+                 :searched="!search || tab.title.toLowerCase().indexOf(search.toLowerCase())>-1"
+                 @open="focusTab(window,tab)"
+                 @close="closeTab(window,tab)"
+                 :recursive="false"
+                 >
+            </Tab>
 	  </div>
-	  <h2><img width="18" :src="tab.favIconUrl">{{tab.title}}</h2>
-	</div>
+        </div> 
       </div>
-	<button class="newwindow" v-on:click="newWindow">+</button>
     </div>
-    <div class="history" v-if="historyResults.length>0"> <!--   v-dragula="historyResults" bag="my-bag"> -->
-    <h2></i>Ghosts of Tabs Past...
-<i  style="font-size:32px" class="fa fa-snapchat-ghost" aria-hidden="true"></i>
-<i  style="font-size:16px" class="fa fa-snapchat-ghost" aria-hidden="true"></i>
-<i  style="font-size:8px" class="fa fa-snapchat-ghost" aria-hidden="true"></i>
-</h2>
-      <div class="historyResult searched tab" v-for="result in historyResults" v-if="result.title">
-	  <div class="titlebar">
-            <span class="right"><button class="open" v-on:click="open(result.url)"><i class="fa fa-external-link"></i></button></span>
+    <div class="row p-4">
+      <button class="btn btn-primary align-self-right" v-on:click="newWindow">Add Window</button>
+    </div>
+    <div v-if="historyResults.length>0" class="ghosty">
+      <div class="row">
+        <h2>Ghosts of Tabs Past...
+          <i  style="font-size:32px" class="fa fa-snapchat-ghost" aria-hidden="true"></i>
+          <i  style="font-size:16px" class="fa fa-snapchat-ghost" aria-hidden="true"></i>
+          <i  style="font-size:8px" class="fa fa-snapchat-ghost" aria-hidden="true"></i>
+        </h2>
+      </div>
+      <div class="row">
+        <div class="p-2 tab col-sm-6 col-md-4 col-lg-3 col-xl-2 align-top d-inline-block"
+             v-for="result in historyResults" v-if="result.title">
+          <Tab :tab="result" 
+               @open="open(result.url)"
+               searched="true"
+               mode="ghost"
+               :recursive="false"
+             ></Tab>
+	  <!--<div class="titlebar">
+              <span class="right"><button class="open" v-on:click="open(result.url)"><i class="fa fa-external-link"></i></button></span>
           </div>
-          <h2>{{result.title}}</h2> 
+          <h2>{{result.title}}</h2>  -->
+        </div>
       </div>
     </div>
   </div>
+</div>
 </template>
 
     <script>
-    import Vue from 'vue';
+import Vue from 'vue';
+import Tab from './tab.vue';
 function backendDo (msg, callback) {
     chrome.runtime.sendMessage(msg,
 			       function (id) {
@@ -67,10 +128,30 @@ function backendDo (msg, callback) {
 }
 
   
-  export default {
-      data : function () {return {'windows': [{id:0,tabs:[]}],'search':'','thisTab':null, 'tabCount':'','windowCount':'',
-				  'historyResults':[{lastVisitTime:'',title:'',url:'',id:''}]}},
-      methods : {
+export default {
+    components : {
+        Tab
+        },
+    data : function () {
+        return {'windows': [{id:0,tabs:[{id:0,checked:false}]}],
+                'search':'',
+                'thisTab':null,
+                'tabCount':'',
+                'windowCount':'',
+                'historyResults':[{checked:false,lastVisitTime:'',title:'',url:'',id:''}]}},
+    computed : {
+/*        checkedTabs : function () {
+            var s = [];
+            this.windows.forEach((w)=>{
+                w.tabs.forEach((t)=>{
+                    if (t.checked) {s.push(t)};
+                })
+            });
+            return s;
+        },*/
+    },
+
+    methods : {
 	  open : function (url) {
 	      var that = this;
 	      window.open(url)
@@ -82,36 +163,43 @@ function backendDo (msg, callback) {
 	  },
 	  refreshWindows : function () {
 	      var that = this;
-	      this.windows = []; // kill the dummy window...
-	      chrome.windows.getAll({populate:true},
-				    function (r) {
-					if (r) {console.log('Completed: %s',r);
-						for (var w of r) {
-						    if (w.focused) {
-							that.windows.unshift(w)
-							// Let's find the active tag...
-							w.tabs.forEach(function (t) {
-							    if (t.active) {
-								that.thisTab = t;
-							    }
-							})
-						    }
-						    else {
-   							that.windows.push(w);
-						    }
-						}
-						that.updateCounts()
-					       }
-			else {
-			    console.log('weird, completed w/o result: %s',r);
-			}
-		    })
+	      that.windows = []; // kill the dummy window...
+	      chrome.windows.getAll(
+                  {populate:true},
+		  function (r) {
+		      if (r) {console.log('Completed: %s',r);
+			      for (var w of r) {                                  
+				  if (w.focused) {
+				      that.windows.unshift(w)
+				      // Let's find the active tag...
+				      w.tabs.forEach(function (t) {
+                                          console.log('Push ID %s',t.id);
+
+					  if (t.active) {
+					      that.thisTab = t;
+					  }
+				      })
+				  }
+				  else {
+   				      that.windows.push(w);
+				  }
+			      }
+			      that.updateCounts()
+			     }
+		      else {
+			  console.log('weird, completed w/o result: %s',r);
+		      }
+		  })
 	      console.log('Done with create hook');
 	  },
 	  newWindow : function () {
-	      chrome.windows.create(
+	      try {chrome.windows.create(
 		  {focused:false}
 	      );
+	      }
+	      catch (err) {
+	      	    chrome.windows.create()
+	      }
 	      this.refreshWindows();
 	  },
 	  focusTab : function (w,t) {
@@ -121,7 +209,13 @@ function backendDo (msg, callback) {
 	      chrome.windows.update(w.id, {focused:true}, function (){console.log('done');})
 	      console.log('highlight tabs: %s', JSON.stringify({windowId:w.id,tabs:t.id}));
 	      //chrome.tabs.highlight({windowId:w.id,tabs:t.id});
-	      chrome.tabs.update(t.id,{highlighted:true,selected:true})
+	      try {
+	      	      chrome.tabs.update(t.id,{highlighted:true,selected:true})
+		      }
+	      catch (err) {
+		      console.log('ff? no highlighted')
+	      	      chrome.tabs.update(t.id,{selected:true})
+}
 	      setTimeout(function () {
 		  chrome.tabs.remove(that.thisTab.id)
 		  // Close window after a second...
@@ -245,3 +339,4 @@ function backendDo (msg, callback) {
       },
   }
 </script>
+
