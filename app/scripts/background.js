@@ -7,14 +7,24 @@ function getWindows (callback) {
     )
 }
 
-
+var windowInfo = {} // Handy storage for session-persistent window info...
 var completedActions = {}
 var lastId = 0;
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
-
-	if (request.mode=='check') {
+        if (request.mode=='getWindowInfo') {
+            console.log("Give 'em there windowInfo",windowInfo);
+            sendResponse(windowInfo);
+        }
+        else if (request.mode='setWindowInfo') {
+            for (var key in request.windowInfo) {
+                console.log('Udpate: %s',key);
+                windowInfo[key] = request.windowInfo[key];
+            }
+            console.log('update window info %s',JSON.stringify(windowInfo));
+        }
+	else if (request.mode=='check') {
 	    if (completedActions[request.action]) {
 		sendResponse({done:true,
 			      value:completedActions[request.action]
