@@ -34,6 +34,6 @@ var vm = new Vue({
 
 
 function getVM () {
-    return vm
+    return vm.$children[0]
 }
 window.getVM = getVM;
