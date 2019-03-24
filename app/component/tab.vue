@@ -8,11 +8,23 @@
                searched:searched,
                tab:false,
                focused:tab.active,
+               'border-danger':tab.checked,
+               'border-success':tab.selected,
                }"
        :style="recursive&&'overflow:default'"
        > <!-- inner container with tab border -->
-    <div class="card-topline bg-light p-1 d-flex mini">
-      <!--<input type="checkbox" v-model="tab.checked">-->
+    <div :class="{
+                'card-topline':true,
+                'bg-light':!tab.checked&&!tab.selected,
+                'bg-primary':tab.selected,
+                'bg-dark':tab.checked,
+                'text-dark':!tab.checked,
+                'text-light':tab.checked,
+                'p-1':true,
+                'd-flex':true,
+                'mini':true,
+                }">
+      <input type="checkbox" :checked="tab.checked" @click="toggleProp(tab,'checked')">
       <span class="mr-auto" @click="toggle()" v-if="mode=='ghost'">
         <i class="fa fa-snapchat-ghost"></i>
       </span>
@@ -61,6 +73,10 @@ export default {
             ],
     name : 'Tab',
     methods : {
+        toggleProp : function (o,p) {
+            // Work around trouble updating new properties.
+            this.$set(o,p,!o[p]);
+        },
         open : function () {
             console.log('OPEN');
             this.$emit('open');
