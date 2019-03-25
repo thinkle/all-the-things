@@ -311,11 +311,11 @@ export default {
             search:'',
             showPrefs:false,
             
-            bgMode : 'flickr',
+            bgMode : 'url',
 
             bgsearch:'mountain',
             newbg:'mountain',
-            bgUrl : '',
+            bgUrl : 'https://farm9.staticflickr.com/8089/8516658480_11cb317450_k.jpg',
             newBgUrl : '',
             bgColor : '',
             newBgColor : '',
